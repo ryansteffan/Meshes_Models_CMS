@@ -9,7 +9,8 @@
 
 <body>
 
-    <h1></h1>
+    <h1>Sorry, we Encountered an Error!</h1>
+    <p>There was an error contacting the database, please try again later.</p>
 
 </body>
 
