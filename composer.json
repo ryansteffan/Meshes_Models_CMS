@@ -1,0 +1,12 @@
+{
+    "name": "ryans/meshes_models_cms",
+    "description": "Contains the Meshes and Models CMS website.",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Ryan Steffan",
+            "email": "ryansteffan.biz@gmail.com"
+        }
+    ],
+    "require": {}
+}
