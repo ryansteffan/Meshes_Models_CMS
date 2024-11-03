@@ -1,4 +1,5 @@
 <?php
+require("utilities/connect.php");
 
 ?>
 
