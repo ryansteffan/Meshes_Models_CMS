@@ -1,0 +1,34 @@
+footer {
+	margin-top: 3rem;
+	padding-bottom: 0.5rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-content: center;
+	background-color: #093973;
+	position: fixed;
+	bottom: 0;
+	width: 100vw;
+	height: 15vh;
+	list-style: none;
+}
+
+footer * {
+	background-color: #093973;
+}
+
+footer ul,
+footer p {
+	align-self: center;
+	padding: 0.2rem;
+	margin: 0.4rem;
+}
+
+footer ul {
+	display: flex;
+	list-style: none;
+}
+
+footer ul li {
+	padding: 0.3rem;
+}
