@@ -1,0 +1,29 @@
+#banner {
+	background-image: url(../../images/tree.jpg);
+	background-size: cover;
+	background-position: center;
+	width: 100vw;
+	height: 35vh;
+}
+
+#nav_items {
+	background-color: #093973;
+	display: flex;
+	justify-content: space-around;
+	list-style: none;
+	text-decoration: none;
+	width: 100vw;
+	height: 4vh;
+}
+
+#nav_items li {
+	padding: 0.3rem;
+	display: flex;
+	align-content: center;
+	justify-content: center;
+	background-color: #6e8387;
+}
+
+#nav_items li a {
+	background-color: #6e8387;
+}
