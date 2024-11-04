@@ -23,8 +23,8 @@ if (end($current_dir) == "Meshes_Models_CMS") {
 <link rel="stylesheet" href=<?= $styles_location ?>>
 <header>
     <!-- Bring in the styles for the template. -->
+    <h1 id="title">Meshes and Models</h1>
     <div id="banner">
-        <h1 id="title">Meshes and Models</h1>
     </div>
     <ul id="nav_items">
         <li><a href=<?= $home_link ?>>Home</a></li>

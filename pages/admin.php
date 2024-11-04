@@ -1,5 +1,5 @@
 <?php
-require("utilities/connect.php");
+require("../utilities/connect.php");
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +12,6 @@ require("utilities/connect.php");
 </head>
 
 <body>
-
 </body>
 
 </html>

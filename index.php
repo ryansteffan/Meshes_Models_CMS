@@ -1,6 +1,13 @@
 <?php
-// require("utilities/connect.php");
-require("utilities/auth.php");
+require("utilities/connect.php");
+
+$date_format = "F j, Y, h:i a";
+
+$get_posts_query = "SELECT * FROM posts p JOIN users u ON p.author = u.user_id;";
+
+$get_posts_statement = $db->prepare($get_posts_query);
+
+$get_posts_statement->execute();
 
 ?>
 
@@ -16,8 +23,14 @@ require("utilities/auth.php");
 
 <body>
     <?php require("./templates/header.php"); ?>
-    <h1>My Content</h1>
-    <p>This is some content that comes after the header and before the footer.</p>
+    <div id="search">
+    </div>
+    <?php while ($row = $get_posts_statement->fetch()): ?>
+        <h1><?= $row["first_name"] . " " . $row["last_name"] ?> </h1>
+        <h2><?= date($date_format, strtotime($row["post_date"])) ?></h2>
+        <img src=<?= $row["image_content"] ?> alt="">
+        <p><?= $row["witten_content"] ?></p>
+    <?php endwhile ?>
     <?php require("./templates/footer.php"); ?>
 </body>
 

@@ -1,5 +1,5 @@
 <?php
-require("utilities/connect.php");
+require("../utilities/connect.php");
 ?>
 
 <!DOCTYPE html>
