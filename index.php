@@ -1,10 +1,6 @@
 <?php
 require("utilities/connect.php");
-
-function split_categories($categories)
-{
-    return explode(",", $categories);
-}
+require("utilities/categories.php");
 
 $date_format = "F j, Y, h:i a";
 
