@@ -38,6 +38,7 @@ if (isset($_GET["category"])) {
 </head>
 
 <body>
+    <?php require("../templates/header.php") ?>
     <?php while ($row = $statement->fetch()): ?>
         <div class="search_item">
             <h1><?= $row["first_name"] . " " . $row["last_name"] ?> </h1>
@@ -52,6 +53,7 @@ if (isset($_GET["category"])) {
             <p><a href="pages/view_post.php?post_id=<?= $row["post_id"] ?>">Read More...</a></p>
         </div>
     <?php endwhile ?>
+    <?php require("../templates/footer.php") ?>
 </body>
 
 </html>
