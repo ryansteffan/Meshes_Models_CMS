@@ -12,7 +12,8 @@ require("../utilities/connect.php");
 </head>
 
 <body>
-
+    <?php require("../templates/header.php") ?>
+    <?php require("../templates/footer.php") ?>
 </body>
 
 </html>
