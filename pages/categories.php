@@ -18,7 +18,7 @@ $categories = get_all_categories($db);
     <?php require("../templates/header.php") ?>
     <ul>
         <?php for ($category = 0; $category < count($categories); $category++): ?>
-            <li><a href="view_category.php?<?=?>"><?= $categories[$category] ?></a></li>
+            <li><a href="view_category.php?category=<?= $categories[$category] ?>"><?= $categories[$category] ?></a></li>
         <?php endfor ?>
     </ul>
     <?php require("../templates/footer.php") ?>

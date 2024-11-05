@@ -24,5 +24,11 @@ function get_all_categories($db)
         }
     }
 
-    return $categories;
+    $filtered_categories = array_unique($categories);
+
+    // Reindexes the array after the duplicates are removed.
+    // Info: https://stackoverflow.com/questions/7558022/php-reindex-array
+    $filtered_categories = array_values($filtered_categories);
+
+    return $filtered_categories;
 }
