@@ -22,7 +22,7 @@ try {
         define('AZURE_DB_DSN', "mysql:host=$azure_db_host;port=$azure_db_port;dbname=$azure_db_name;charset=utf8");
         define('AZURE_DB_USER', $azure_db_username);
         define('AZURE_DB_PASS', $azure_db_password);
-        $db = new PDO(AZURE_DB_DSN, AZURE_DB_USER, AZURE_DB_PASS, [getenv("AZURE_MYSQL_FLAG")]);
+        $db = new PDO(AZURE_DB_DSN, AZURE_DB_USER, AZURE_DB_PASS);
     } else {
         $db = new PDO(DB_DSN, DB_USER, DB_PASS);
     }

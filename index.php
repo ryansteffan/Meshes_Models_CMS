@@ -8,9 +8,6 @@ function split_categories($categories)
 
 $date_format = "F j, Y, h:i a";
 
-// TODO: Remove debug messages.
-print_r($_POST);
-
 if (isset($_GET["search_text"])) {
     $keyword = '%' . $_GET["search_text"] . '%';
     $get_posts_query = "SELECT * 
