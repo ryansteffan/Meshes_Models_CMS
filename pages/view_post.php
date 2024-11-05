@@ -19,6 +19,9 @@ if (isset($_GET["post_id"])) {
     $prepared_statement->bindValue(":post_id", $post_id);
 
     $prepared_statement->execute();
+} else {
+    // Redirect the user if they do not make a get request.
+    header("Location: ../index.php");
 }
 
 ?>
