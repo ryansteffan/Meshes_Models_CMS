@@ -4,6 +4,7 @@ define('DB_DSN', 'mysql:host=localhost;port=3306;dbname=meshes_and_models;charse
 define('DB_USER', 'serveruser');
 define('DB_PASS', 'gorgonzola7!');
 
+// Get the credentials for the azure database.
 $azure_db_name = getenv("AZURE_MYSQL_DBNAME");
 $azure_db_host = getenv("AZURE_MYSQL_HOST");
 $azure_db_password = getenv("AZURE_MYSQL_PASSWORD");
@@ -27,6 +28,6 @@ try {
     }
     //,array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
 } catch (PDOException $e) {
-    print "Error: " . $e->getMessage();
+    // print "Error: " . $e->getMessage();
     header("Location: pages/db_error.php");
 }

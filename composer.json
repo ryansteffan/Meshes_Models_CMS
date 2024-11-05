@@ -8,5 +8,7 @@
             "email": "ryansteffan.biz@gmail.com"
         }
     ],
-    "require": {}
+    "require": { 
+        "gumlet/php-image-resize": "2.0.*"
+    }
 }
