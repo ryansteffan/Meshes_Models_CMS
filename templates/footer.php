@@ -1,8 +1,8 @@
 <?php
 $current_dir = explode(DIRECTORY_SEPARATOR, getcwd());
 
-// Ensure that them template works in multiple parts of the app.
-if (end($current_dir) == "Meshes_Models_CMS") {
+// Ensure that them template works in multiple parts of the app and on the web.
+if (end($current_dir) == "Meshes_Models_CMS" || end($current_dir) == "wwwroot") {
     $styles_location = "templates/styles/footer.css";
     $home_link = "index.php";
     $categories_link = "pages/categories.php";
