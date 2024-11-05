@@ -48,13 +48,6 @@ $get_posts_statement->execute();
 
 <body>
     <?php require("./templates/header.php"); ?>
-    <div id="search">
-        <form action="#" method="get">
-            <label for="search_text">Search by User or Category:</label>
-            <input type="text" name="search_text" id="search_text">
-            <button type="submit">Search</button>
-        </form>
-    </div>
     <?php while ($row = $get_posts_statement->fetch()): ?>
         <div class="search_item">
             <h1><?= $row["first_name"] . " " . $row["last_name"] ?> </h1>

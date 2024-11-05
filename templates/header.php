@@ -24,6 +24,11 @@ if (end($current_dir) == "Meshes_Models_CMS" || end($current_dir) == "wwwroot") 
 <header>
     <!-- Bring in the styles for the template. -->
     <h1 id="title">Meshes and Models</h1>
+    <form action=<?= $home_link ?> method="get">
+        <label for="search_text">Search by User or Category:</label>
+        <input type="text" name="search_text" id="search_text">
+        <button type="submit">Search</button>
+    </form>
     <div id="banner">
     </div>
     <ul id="nav_items">
