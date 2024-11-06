@@ -14,7 +14,7 @@ if (isset($_GET["search_text"])) {
                         p.categories LIKE :cat
                         OR 
                         u.first_name LIKE :fn
-                        OR 
+                        OR
                         u.last_name LIKE :ln
                         LIMIT 20;";
 
