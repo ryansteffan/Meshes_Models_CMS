@@ -22,6 +22,7 @@ if (isset($_POST["create_account"])) {
 
         try {
             create_user($db, $email, $password, $first_name, $last_name, $auth_level);
+            header("Location: login.php");
         } catch (Exception $e) {
             header("Location: account_creation_error.php");
         }
