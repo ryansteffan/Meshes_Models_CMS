@@ -1,4 +1,6 @@
 <?php
+// TODO: Add salts to the passwords.
+
 // Encryption info: 
 // https://medium.com/@mrityunjay.webmaster/how-to-secure-hash-and-salt-for-php-passwords-54f1c9d268a6
 
