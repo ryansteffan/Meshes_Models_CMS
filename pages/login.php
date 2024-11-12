@@ -1,5 +1,18 @@
 <?php
 require("../utilities/connect.php");
+require("../utilities/auth.php");
+
+$password_and_email_set = isset($_POST["email"]) && isset($_POST["password"]);
+
+if ($password_and_email_set) {
+    $username = $_POST["email"];
+    $password = $_POST["password"];
+
+    if ($username != "" || $password != "") {
+        login_user($db, $username, $password);
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +32,9 @@ require("../utilities/connect.php");
             <input type="text" name="email" id="email">
             <label for="password">Password:</label>
             <input type="password" name="password" id="password">
+            <button type="submit">Login</button>
         </form>
+        <p>Not already a user? Sign Up Here: <a href="./create_account.php">Sign Up</a></p>
     </div>
 
 </body>
