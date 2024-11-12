@@ -1,9 +1,7 @@
 <?php
-// TODO: Add salts to the passwords.
-
-// Encryption info: 
-// https://medium.com/@mrityunjay.webmaster/how-to-secure-hash-and-salt-for-php-passwords-54f1c9d268a6
+// Encryption info:
 // https://stackoverflow.com/questions/34662684/setting-a-salt-for-password-hash
+// https://www.php.net/manual/en/function.password-hash.php
 
 if (session_id() == '') {
     session_start();
