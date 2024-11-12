@@ -8,7 +8,7 @@ if ($password_and_email_set) {
     $username = $_POST["email"];
     $password = $_POST["password"];
 
-    if ($username != "" || $password != "") {
+    if ($username != "" && $password != "") {
         login_user($db, $username, $password);
     } else {
         header("Location: login_error.php");

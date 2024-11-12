@@ -9,6 +9,7 @@
         }
     ],
     "require": { 
-        "gumlet/php-image-resize": "2.0.*"
+        "gumlet/php-image-resize": "2.0.*",
+        "rmccue/requests": "^2.0"
     }
 }

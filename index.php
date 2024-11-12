@@ -1,6 +1,7 @@
 <?php
 require("utilities/connect.php");
 require("utilities/categories.php");
+require("utilities/auth.php");
 
 $date_format = "F j, Y, h:i a";
 
