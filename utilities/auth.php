@@ -3,6 +3,7 @@
 
 // Encryption info: 
 // https://medium.com/@mrityunjay.webmaster/how-to-secure-hash-and-salt-for-php-passwords-54f1c9d268a6
+// https://stackoverflow.com/questions/34662684/setting-a-salt-for-password-hash
 
 if (session_id() == '') {
     session_start();
@@ -69,7 +70,6 @@ function login_user($database, $username, $password)
     $isValidLogin = password_verify($password, $stored_password_hash);
     if ($isValidLogin) {
         set_user_logged_in();
-        print_r("User logged in");
     } else {
         header("../pages/login.php");
     }

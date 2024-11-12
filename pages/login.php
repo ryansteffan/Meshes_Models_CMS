@@ -10,6 +10,8 @@ if ($password_and_email_set) {
 
     if ($username != "" || $password != "") {
         login_user($db, $username, $password);
+    } else {
+        header("Location: login_error.php");
     }
 }
 
