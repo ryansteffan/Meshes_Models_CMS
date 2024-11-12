@@ -14,7 +14,6 @@ if ($password_and_email_set) {
         header("Location: login_error.php");
     }
 }
-
 ?>
 
 <!DOCTYPE html>
