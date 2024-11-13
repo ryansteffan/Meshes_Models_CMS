@@ -54,21 +54,15 @@ $get_posts_statement->execute();
             <h1><?= $row["first_name"] . " " . $row["last_name"] ?> </h1>
             <p><?= date($date_format, strtotime($row["post_date"])) ?></p>
             <img src=<?= $row["image_content"] ?> alt="">
+            <?php $categories = get_post_categories($db, $row["post_id"]); ?>
             <ul>
-                <!-- List out all of the categories individually -->
-                <?php for ($category = 0; $category < count(split_categories($row["categories"])); $category++): ?>
-                    <li><?= split_categories($row["categories"])[$category] ?></li>
+                <?php for ($category_index = 0; $category_index < count($categories); $category_index++): ?>
+                    <li><?= $categories[$category_index]["name"] ?></li>
                 <?php endfor ?>
             </ul>
             <p><a href="pages/view_post.php?post_id=<?= $row["post_id"] ?>">Read More...</a></p>
         </div>
     <?php endwhile ?>
-    <!-- <div id="pagination">
-        <ul>
-            <li><a href="">Next Page</a></li>
-            <li><a href="">Previous Page</a></li>
-        </ul>
-    </div> -->
     <?php require("./templates/footer.php"); ?>
 </body>
 

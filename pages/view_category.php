@@ -31,10 +31,20 @@ if (isset($_GET["category"])) {
     <?php require("../templates/header.php") ?>
     <?php for ($index = 0; $index < count($posts); $index++): ?>
         <div class="search_item">
+
             <h1><?= $posts[$index]["first_name"] . " " . $posts[$index]["last_name"] ?> </h1>
             <p><?= date($date_format, strtotime($posts[$index]["post_date"])) ?></p>
             <img src=../<?= $posts[$index]["image_content"] ?> alt="">
-            <p><a href="pages/view_post.php?post_id=<?= $row["post_id"] ?>">Read More...</a></p>
+
+            <?php $categories = get_post_categories($db, $posts[$index]["post_id"]); ?>
+            <ul>
+                <?php for ($category_index = 0; $category_index < count($categories); $category_index++): ?>
+                    <li><?= $categories[$category_index]["name"] ?></li>
+                <?php endfor ?>
+            </ul>
+
+            <p><a href="view_post.php?post_id=<?= $posts[$index]["post_id"] ?>">Read More...</a></p>
+
         </div>
     <?php endfor ?>
     <?php require("../templates/footer.php") ?>
