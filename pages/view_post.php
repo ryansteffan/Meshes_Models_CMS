@@ -40,12 +40,14 @@ if (isset($_GET["post_id"])) {
     <?php while ($row = $prepared_statement->fetch()): ?>
         <h1><?= $row["first_name"] . " " . $row["last_name"] ?> </h1>
         <p><?= date($date_format, strtotime($row["post_date"])) ?></p>
+
+        <?php $categories = get_post_categories($db, $row["post_id"]); ?>
         <ul>
-            <!-- List out all of the categories individually -->
-            <?php for ($category = 0; $category < count(split_categories($row["categories"])); $category++): ?>
-                <li><?= split_categories($row["categories"])[$category] ?></li>
+            <?php for ($category_index = 0; $category_index < count($categories); $category_index++): ?>
+                <li><?= $categories[$category_index]["name"] ?></li>
             <?php endfor ?>
         </ul>
+
         <img src=../<?= $row["image_content"] ?> alt="">
         <p><?= $row["written_content"] ?></p>
     <?php endwhile ?>

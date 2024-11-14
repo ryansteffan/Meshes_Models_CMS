@@ -6,21 +6,11 @@ if (isset($_GET["category"])) {
 
     $date_format = "F j, Y, h:i a";
 
-    $category = '%' . $_GET["category"] . '%';
+    $category = $_GET["category"];
 
-    $query = "SELECT * 
-              FROM posts p
-              JOIN users u
-              ON p.author = u.user_id
-              WHERE 
-              p.categories LIKE :cat
-              LIMIT 20;";
+    $posts = get_category_posts($db, $category);
 
-    $statement = $db->prepare($query);
-
-    $statement->bindValue(":cat", $category);
-
-    $statement->execute();
+    print_r($posts);
 } else {
     // Redirect the user if they do not make a proper get request.
     header("Location: categories.php");
@@ -39,20 +29,24 @@ if (isset($_GET["category"])) {
 
 <body>
     <?php require("../templates/header.php") ?>
-    <?php while ($row = $statement->fetch()): ?>
+    <?php for ($index = 0; $index < count($posts); $index++): ?>
         <div class="search_item">
-            <h1><?= $row["first_name"] . " " . $row["last_name"] ?> </h1>
-            <p><?= date($date_format, strtotime($row["post_date"])) ?></p>
-            <img src=../<?= $row["image_content"] ?> alt="">
+
+            <h1><?= $posts[$index]["first_name"] . " " . $posts[$index]["last_name"] ?> </h1>
+            <p><?= date($date_format, strtotime($posts[$index]["post_date"])) ?></p>
+            <img src=../<?= $posts[$index]["image_content"] ?> alt="">
+
+            <?php $categories = get_post_categories($db, $posts[$index]["post_id"]); ?>
             <ul>
-                <!-- List out all of the categories individually -->
-                <?php for ($category = 0; $category < count(split_categories($row["categories"])); $category++): ?>
-                    <li><?= split_categories($row["categories"])[$category] ?></li>
+                <?php for ($category_index = 0; $category_index < count($categories); $category_index++): ?>
+                    <li><?= $categories[$category_index]["name"] ?></li>
                 <?php endfor ?>
             </ul>
-            <p><a href="pages/view_post.php?post_id=<?= $row["post_id"] ?>">Read More...</a></p>
+
+            <p><a href="view_post.php?post_id=<?= $posts[$index]["post_id"] ?>">Read More...</a></p>
+
         </div>
-    <?php endwhile ?>
+    <?php endfor ?>
     <?php require("../templates/footer.php") ?>
 </body>
 

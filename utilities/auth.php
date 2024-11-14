@@ -45,7 +45,7 @@ function create_user($database, $email, $password, $first_name, $last_name, $aut
 
 function login_user($database, $username, $password)
 {
-    $user_query = "SELECT email, hash, first_name, last_name, auth_level FROM users WHERE email = :username;";
+    $user_query = "SELECT user_id, email, hash, first_name, last_name, auth_level FROM users WHERE email = :username;";
     $statement = $database->prepare($user_query);
     $statement->bindValue(":username", $username);
     $statement->execute();
