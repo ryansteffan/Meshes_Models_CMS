@@ -2,6 +2,7 @@
 require("../utilities/auth.php");
 require("../utilities/connect.php");
 
+$error = false;
 
 if (isset($_POST["create_account"])) {
     $is_email_password_set = $_POST["email"] != "" && $_POST["password"] != "" && $_POST["repeat_password"] != "";
@@ -17,17 +18,21 @@ if (isset($_POST["create_account"])) {
 
         // Ensure that a user does not make a password they do not know.
         if ($password != $repeated_password) {
-            header("Location: account_creation_error.php");
+            $error = "Passwords do match. Please re-enter the password and retry.";
         }
 
         try {
-            create_user($db, $email, $password, $first_name, $last_name, $auth_level);
-            header("Location: login.php");
+            // Check if there has been any errors before adding the user to the db.
+            if (!$error) {
+                create_user($db, $email, $password, $first_name, $last_name, $auth_level);
+                // Redirect the user to the login page.
+                header("Location: login.php");
+            }
         } catch (Exception $e) {
-            header("Location: account_creation_error.php");
+            $error = "That email is already in use. Please enter a unique email.";
         }
     } else {
-        header("Location: account_creation_error.php");
+        $error = "Form is not filled. Please provide a First Name, Last Name, Email, and Password.";
     }
 }
 ?>
@@ -56,6 +61,9 @@ if (isset($_POST["create_account"])) {
             <input type="password" name="repeat_password" id="repeat_password">
             <input type="hidden" name="create_account" value="true">
             <button type="submit">Create Account</button>
+            <?php if ($error): ?>
+                <?= $error ?>
+            <?php endif ?>
         </form>
     </div>
 </body>
