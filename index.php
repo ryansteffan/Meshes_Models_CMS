@@ -7,9 +7,10 @@ $date_format = "F j, Y, h:i a";
 
 if (isset($_GET["search_text"])) {
     $is_search = true;
-    $keyword = '%' . $_GET["search_text"] . '%';
+    $keyword = $_GET["search_text"];
 
     $search_results = post_search($db, $keyword);
+    print_r($search_results);
 } else {
     $is_search = false;
     $get_posts_query = "SELECT * FROM posts p JOIN users u ON p.author = u.user_id LIMIT 20;";

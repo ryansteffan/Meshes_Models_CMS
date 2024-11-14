@@ -64,66 +64,32 @@ function get_post_categories($db, $post)
 
 function post_search($db, $keyword)
 {
-    $found_posts = [];
 
-    $first_name_search = "SELECT *
-                          FROM posts p
-                          JOIN users u
-                          ON p.author = u.user_id
-                          WHERE u.first_name LIKE :fn;";
-
-    $first_name_statement = $db->prepare($first_name_search);
-
-    $first_name_statement->bindValue(":fn", $keyword);
-
-    $first_name_statement->execute();
-
-    $first_name_matches = $first_name_statement->fetchAll();
-
-    for ($post = 0; $post < count($first_name_matches); $post++) {
-        array_push($found_posts, $first_name_matches[$post]);
-    }
-
-    $last_name_search = "SELECT *
-                          FROM posts p
-                          JOIN users u
-                          ON p.author = u.user_id
-                          WHERE u.last_name LIKE :ln;";
-
-
-    $last_name_statement = $db->prepare($last_name_search);
-
-    $last_name_statement->bindValue(":ln", $keyword);
-
-    $last_name_statement->execute();
-
-    $last_name_matches = $first_name_statement->fetchAll();
-
-    for ($post = 0; $post < count($last_name_matches); $post++) {
-        array_push($found_posts, $last_name_matches[$post]);
-    }
+    $keyword = '%' . $keyword . '%';
 
     $category_name_search = "SELECT *
-                             FROM posts p
-                             JOIN users u
-                             ON p.author = u.user_id
-                             JOIN posts_categories pc
-                             ON pc.post_id = p.post_id
-                             JOIN categories c
-                             ON c.category_id = pc.category_id
-                             WHERE c.name LIKE :cat;";
+                             FROM
+                                 posts p
+                             JOIN users u ON
+                                 p.author = u.user_id
+                             JOIN posts_categories pc ON
+                                 pc.post_id = p.post_id
+                             JOIN categories c ON
+                                 c.category_id = pc.category_id
+                             WHERE
+                                 u.first_name LIKE :fn
+                             OR
+                                 u.last_name LIKE :ln
+                             OR
+                                 c.name LIKE :cat;";
 
-    $category_name_statement = $db->prepare($category_name_search);
+    $statement = $db->prepare($category_name_search);
 
-    $category_name_statement->bindValue(":cat", $keyword);
+    $statement->bindValue(":fn", $keyword);
+    $statement->bindValue(":ln", $keyword);
+    $statement->bindValue(":cat", $keyword);
 
-    $category_name_statement->execute();
+    $statement->execute();
 
-    $category_name_matches = $first_name_statement->fetchAll();
-
-    for ($post = 0; $post < count($category_name_matches); $post++) {
-        array_push($found_posts, $category_name_matches[$post]);
-    }
-
-    return $found_posts;
+    return $statement->fetchAll();
 }
