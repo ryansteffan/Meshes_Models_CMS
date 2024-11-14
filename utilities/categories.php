@@ -72,22 +72,15 @@ function post_search($db, $keyword)
                                  posts p
                              JOIN users u ON
                                  p.author = u.user_id
-                             JOIN posts_categories pc ON
-                                 pc.post_id = p.post_id
-                             JOIN categories c ON
-                                 c.category_id = pc.category_id
                              WHERE
                                  u.first_name LIKE :fn
                              OR
-                                 u.last_name LIKE :ln
-                             OR
-                                 c.name LIKE :cat;";
+                                 u.last_name LIKE :ln";
 
     $statement = $db->prepare($category_name_search);
 
     $statement->bindValue(":fn", $keyword);
     $statement->bindValue(":ln", $keyword);
-    $statement->bindValue(":cat", $keyword);
 
     $statement->execute();
 
