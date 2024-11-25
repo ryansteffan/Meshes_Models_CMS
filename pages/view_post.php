@@ -48,7 +48,7 @@ if (isset($_GET["post_id"])) {
             <?php endfor ?>
         </ul>
 
-        <img src=../<?= $row["image_content"] ?> alt="">
+        <img src=../uploads/<?= $row["image_content"] ?> alt="">
         <p><?= $row["written_content"] ?></p>
     <?php endwhile ?>
     <?php require("../templates/footer.php") ?>

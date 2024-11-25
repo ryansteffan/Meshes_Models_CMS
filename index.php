@@ -36,7 +36,7 @@ if (isset($_GET["search_text"])) {
             <div class="search_item">
                 <h1><?= $search_results[$post]["first_name"] . " " . $search_results[$post]["last_name"] ?> </h1>
                 <p><?= date($date_format, strtotime($search_results[$post]["post_date"])) ?></p>
-                <img src=<?= $search_results[$post]["image_content"] ?> alt="">
+                <img src=uploads/<?= $search_results[$post]["image_content"] ?> alt="">
                 <?php $categories = get_post_categories($db, $search_results[$post]["post_id"]); ?>
                 <ul>
                     <?php for ($category_index = 0; $category_index < count($categories); $category_index++): ?>
@@ -49,9 +49,10 @@ if (isset($_GET["search_text"])) {
     <?php else: ?>
         <?php while ($row = $get_posts_statement->fetch()): ?>
             <div class="search_item">
-                <h1><?= $row["first_name"] . " " . $row["last_name"] ?> </h1>
+                <h2><?= $row["title"] ?></h2>
+                <h3><?= $row["first_name"] . " " . $row["last_name"] ?> </h3>
                 <p><?= date($date_format, strtotime($row["post_date"])) ?></p>
-                <img src=<?= $row["image_content"] ?> alt="">
+                <img src=uploads/<?= $row["image_content"] ?> alt="">
                 <?php $categories = get_post_categories($db, $row["post_id"]); ?>
                 <ul>
                     <?php for ($category_index = 0; $category_index < count($categories); $category_index++): ?>

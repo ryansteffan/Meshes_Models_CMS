@@ -34,7 +34,7 @@ if (isset($_GET["category"])) {
 
             <h1><?= $posts[$index]["first_name"] . " " . $posts[$index]["last_name"] ?> </h1>
             <p><?= date($date_format, strtotime($posts[$index]["post_date"])) ?></p>
-            <img src=../<?= $posts[$index]["image_content"] ?> alt="">
+            <img src=../uploads/<?= $posts[$index]["image_content"] ?> alt="">
 
             <?php $categories = get_post_categories($db, $posts[$index]["post_id"]); ?>
             <ul>

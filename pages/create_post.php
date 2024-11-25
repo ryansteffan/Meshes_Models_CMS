@@ -22,7 +22,7 @@ function save_to_database($db, $title, $image_name, $written_content, $categorie
         $statement->bindValue(":title", $title);
         $statement->bindValue(":author", $_SESSION["user_details"]["user_id"]);
         $statement->bindValue(":written_content", $written_content);
-        $statement->bindValue(":image_content", "uploads" . DIRECTORY_SEPARATOR . $image_name);
+        $statement->bindValue(":image_content", $image_name);
 
         $statement->execute();
     }
@@ -62,7 +62,7 @@ if ($is_form_filled) {
             $medium_image->resizeToWidth(400);
             $medium_image->save($medium_image_file_path);
 
-            // Resize to 50px wide.
+            // Resize to 250px wide.
             $small_image_file_path = $file_upload_path . "small" . $image_filename;
             $small_image = new ImageResize($new_image_path);
             $small_image->resizeToWidth(250);
