@@ -3,35 +3,75 @@ require("../utilities/connect.php");
 require("../utilities/auth.php");
 
 $date_format = "F j, Y, h:i a";
+$user_id = $_SESSION["user_details"]["user_id"];
 
 $do_display_options = false;
 
-function Get_Posts($db, $user_id, $order_type, $order_direction) {}
+function Get_Posts($db, $user_id, $order_type, $order_direction)
+{
+    $users_posts_query = "SELECT
+                        	post_id,
+                        	title,
+                        	written_content,
+                        	image_content,
+                        	post_date,
+                        	modified_date
+                        FROM
+                        	posts p
+                        JOIN users u 
+                        ON
+                        	p.author = u.user_id
+                        WHERE
+                        	p.author = :user_id
+                        ORDER BY :order_type :order_direction;";
+
+    $statement = $db->prepare($users_posts_query);
+
+    $statement->bindValue("user_id", $user_id);
+    $statement->bindValue("order_type", $order_type);
+    $statement->bindValue("order_direction", $order_direction);
+
+    $statement->execute();
+
+    return $statement->fetchAll();
+}
 
 
 if (is_logged_in()) {
     $do_display_options = true;
+    if (isset($_GET["sort_selection"])) {
+        $sort_type = $_GET["sort_selection"];
+        $sort_direction = $_GET["sort_direction"];
 
-    $users_posts_query = "SELECT
-	post_id,
-	title,
-	written_content,
-	image_content,
-	post_date,
-    modified_date
-    FROM
-	    posts p
-    JOIN users u 
-    ON
-    	p.author = u.user_id
-    WHERE
-    	p.author = :user_id;";
+        switch ($sort_type) {
+            case "title":
+                $sort_type = "title";
+                break;
+            case "creation_date":
+                $sort_type = "post_date";
+                break;
+            case "updated_date":
+                $sort_type = "modified_date";
+                break;
+        }
 
-    $statement = $db->prepare($users_posts_query);
+        switch ($sort_direction) {
+            case "ascending":
+                $sort_direction = "ASC";
+                break;
+            case "descending":
+                $sort_direction = "DESC";
+                break;
+        }
 
-    $statement->bindValue(":user_id", $_SESSION["user_details"]["user_id"]);
+        print_r($sort_type);
+        echo "<br>";
+        print_r($sort_direction);
 
-    $statement->execute();
+        $result = Get_Posts($db, $user_id, $sort_type, $sort_direction);
+    } else {
+        $result = Get_Posts($db, $user_id, "modified_date", "ASC");
+    }
 } else {
     header("Location: login.php");
 }
@@ -59,8 +99,8 @@ if (is_logged_in()) {
         <h1>Your Posts:</h1>
         <form action="#" method="get">
             <select name="sort_selection" id="sort_selection">
-                <option value="title">Title</option>
                 <option value="creation_date">Date Created</option>
+                <option value="title">Title</option>
                 <option value="updated_date">Date Updated</option>
             </select>
             <select name="sort_direction" id="sort_direction">
@@ -69,16 +109,16 @@ if (is_logged_in()) {
             </select>
             <button type="submit">Sort</button>
         </form>
-        <?php while ($row = $statement->fetch()): ?>
+        <?php for ($post = 0; $post < count($result); $post++): ?>
             <div class="edit_list_item">
-                <h2><?= $row["title"] ?></h2>
-                <p>Post Date: <?= date($date_format, strtotime($row["post_date"])) ?></p>
-                <p>Last Edited: <?= date($date_format, strtotime($row["modified_date"])) ?></p>
-                <img src="../uploads/small<?= $row["image_content"] ?>" alt="Image for <?= $row["title"] ?> post.">
-                <p><a href="./modify_post.php?post_id=<?= $row["post_id"] ?>">Edit</a></p>
-                <p><a href="./delete_post.php?post_id=<?= $row["post_id"] ?>">Delete</a></p>
+                <h2><?= $result[$post]["title"] ?></h2>
+                <p>Post Date: <?= date($date_format, strtotime($result[$post]["post_date"])) ?></p>
+                <p>Last Edited: <?= date($date_format, strtotime($result[$post]["modified_date"])) ?></p>
+                <img src="../uploads/small<?= $result[$post]["image_content"] ?>" alt="Image for <?= $result[$post]["title"] ?> post.">
+                <p><a href="./modify_post.php?post_id=<?= $result[$post]["post_id"] ?>">Edit</a></p>
+                <p><a href="./delete_post.php?post_id=<?= $result[$post]["post_id"] ?>">Delete</a></p>
             </div>
-        <?php endwhile ?>
+        <?php endfor ?>
 
     <?php endif ?>
 
