@@ -56,7 +56,7 @@ if (is_logged_in()) {
             <p><?= $row["post_date"] ?></p>
             <img src="../uploads/small<?= $row["image_content"] ?>" alt="Image for <?= $row["title"] ?> post.">
             <p><a href="./modify_post.php?post_id=<?= $row["post_id"] ?>">Edit</a></p>
-            <p><a href=./delete_post.php?post_id=<?= $row["post_id"] ?>">Delete</a></p>
+            <p><a href="./delete_post.php?post_id=<?= $row["post_id"] ?>">Delete</a></p>
         <?php endwhile ?>
 
     <?php endif ?>
