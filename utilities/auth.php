@@ -1,6 +1,5 @@
 <?php
 // Encryption info:
-// https://stackoverflow.com/questions/34662684/setting-a-salt-for-password-hash
 // https://www.php.net/manual/en/function.password-hash.php
 
 session_start();
@@ -19,6 +18,7 @@ function set_user_logged_in($user_details)
 function set_user_logged_out()
 {
     $_SESSION["logged_in"] = false;
+    $_SESSION["user_details"] = null;
 }
 
 function create_user($database, $email, $password, $first_name, $last_name, $auth_level)
@@ -53,17 +53,17 @@ function login_user($database, $username, $password)
     $user_row = $statement->fetch();
 
     try {
-        $stored_password_hash = $user_row["hash"];
+        if (isset($user_row["hash"])) {
+            $stored_password_hash = $user_row["hash"];
+            $isValidLogin = password_verify($password, $stored_password_hash);
+            if ($isValidLogin) {
+                set_user_logged_in($user_row);
+                header("Location: ../index.php");
+            } else {
+                header("../pages/login.php");
+            }
+        }
     } catch (Exception $e) {
         header("Location: ../pages/login.php");
-    }
-
-    $isValidLogin = password_verify($password, $stored_password_hash);
-    if ($isValidLogin) {
-        // TODO: Take out hash from user data.
-        set_user_logged_in($user_row);
-        header("Location: ../index.php");
-    } else {
-        header("../pages/login.php");
     }
 }

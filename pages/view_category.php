@@ -33,8 +33,9 @@ if (isset($_GET["category"])) {
         <div class="search_item">
 
             <h1><?= $posts[$index]["first_name"] . " " . $posts[$index]["last_name"] ?> </h1>
-            <p><?= date($date_format, strtotime($posts[$index]["post_date"])) ?></p>
-            <img src=../<?= $posts[$index]["image_content"] ?> alt="">
+            <p>Post Date: <?= date($date_format, strtotime($posts[$index]["post_date"])) ?></p>
+            <p>Last Edited: <?= date($date_format, strtotime($posts[$index]["modified_date"])) ?></p>
+            <img src=../uploads/<?= $posts[$index]["image_content"] ?> alt="">
 
             <?php $categories = get_post_categories($db, $posts[$index]["post_id"]); ?>
             <ul>
