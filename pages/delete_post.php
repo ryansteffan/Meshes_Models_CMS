@@ -16,7 +16,7 @@ function delete_post($db, $post_id)
     $get_image_statement->bindValue(":post_id", $post_id);
     $get_image_statement->execute();
 
-    $image_name = $get_image_statement->fetch();
+    $image_name = $get_image_statement->fetch()[0];
 
     try {
         // Remove the images from the server.

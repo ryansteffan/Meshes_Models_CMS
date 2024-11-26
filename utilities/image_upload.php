@@ -1,4 +1,5 @@
 <?php
+require("../vendor/autoload.php");
 
 use Gumlet\ImageResize;
 
@@ -45,7 +46,7 @@ function save_images($file_upload_path)
 // Deletes all images in the uploads folder that match the name provided.
 function delete_images($image_name)
 {
-    unlink("../uploads/{$image_name[0]}");
-    unlink("../uploads/small{$image_name[0]}");
-    unlink("../uploads/medium{$image_name[0]}");
+    unlink("../uploads/{$image_name}");
+    unlink("../uploads/small{$image_name}");
+    unlink("../uploads/medium{$image_name}");
 }

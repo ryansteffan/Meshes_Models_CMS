@@ -3,6 +3,8 @@ require("../utilities/connect.php");
 require("../utilities/auth.php");
 require("../utilities/image_upload.php");
 
+use Gumlet\ImageResize;
+
 $do_display_options = false;
 $error = false;
 $default_error_message = "There was an error trying to update the page, please try again later.";
@@ -58,16 +60,14 @@ if (isset($_POST["update_post"])) {
     $title = $_POST["title"];
     $old_image = $_POST["current_image"];
     $written_content = $_POST["written_content"];
-    if (isset($_FILES["name"])) {
-        $filename = $_FILES["name"];
+    if ($_FILES["image_upload"]["error"] == 0) {
+        $filename = $_FILES["image_upload"]["name"];
         update_post($db, $post_id, $title, $filename, $written_content);
         delete_images($old_image);
         save_images("../uploads/");
     } else {
         update_post($db, $post_id, $title, $old_image, $written_content);
     }
-} else {
-    header("location: my_posts.php");
 }
 
 ?>
