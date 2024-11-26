@@ -14,3 +14,11 @@ function file_is_image($temp_path, $new_path)
 
     return $file_extension_is_valid && $file_mime_is_valid;
 }
+
+// Deletes all images in the uploads folder that match the name provided.
+function delete_images($image_name)
+{
+    unlink("../uploads/{$image_name[0]}");
+    unlink("../uploads/small{$image_name[0]}");
+    unlink("../uploads/medium{$image_name[0]}");
+}

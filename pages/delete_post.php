@@ -1,6 +1,7 @@
 <?php
 require("../utilities/auth.php");
 require("../utilities/connect.php");
+require("../utilities/image_upload.php");
 
 function delete_post($db, $post_id)
 {
@@ -27,14 +28,6 @@ function delete_post($db, $post_id)
     } catch (Exception $ex) {
         header("location: db_error.php");
     }
-}
-
-// Deletes all images in the uploads folder that match the name provided.
-function delete_images($image_name)
-{
-    unlink("../uploads/{$image_name[0]}");
-    unlink("../uploads/small{$image_name[0]}");
-    unlink("../uploads/medium{$image_name[0]}");
 }
 
 if (is_logged_in() && isset($_GET["post_id"])) {
