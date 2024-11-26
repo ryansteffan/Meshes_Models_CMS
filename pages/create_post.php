@@ -20,7 +20,7 @@ function save_to_database($db, $title, $image_name, $written_content, $categorie
         $statement->bindValue(":title", $title);
         $statement->bindValue(":author", $_SESSION["user_details"]["user_id"]);
         $statement->bindValue(":written_content", $written_content);
-        $statement->bindValue(":image_content", "uploads" . DIRECTORY_SEPARATOR . $image_name);
+        $statement->bindValue(":image_content", $image_name);
 
         $statement->execute();
     }
@@ -46,6 +46,8 @@ if ($is_form_filled) {
     if ($image_upload_detected) {
 
         save_images($file_upload_path);
+
+        $image_filename = $_FILES["image_upload"]["name"];
 
         save_to_database($db, $_POST["title"], $image_filename, $_POST["written_content"]);
 
