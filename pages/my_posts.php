@@ -7,29 +7,76 @@ $user_id = $_SESSION["user_details"]["user_id"];
 
 $do_display_options = false;
 
-function Get_Posts($db, $user_id, $order_type, $order_direction)
+function Get_Posts($db, $user_id, $order_type = "updated_date", $order_direction = "descending")
 {
-    $users_posts_query = "SELECT
-                        	post_id,
-                        	title,
-                        	written_content,
-                        	image_content,
-                        	post_date,
-                        	modified_date
-                        FROM
-                        	posts p
-                        JOIN users u 
-                        ON
-                        	p.author = u.user_id
-                        WHERE
-                        	p.author = :user_id
-                        ORDER BY :order_type :order_direction;";
+    switch ($order_type) {
+        case "title":
+            $users_posts_query = "SELECT
+                                      post_id,
+                                      title,
+                                      written_content,
+                                      image_content,
+                                      post_date,
+                                      modified_date
+                                  FROM
+                                      posts p
+                                  JOIN users u 
+                                  ON
+                                      p.author = u.user_id
+                                  WHERE
+                                      p.author = :user_id
+                                  ORDER BY title";
+            break;
+        case "creation_date":
+            $users_posts_query = "SELECT
+                                      post_id,
+                                      title,
+                                      written_content,
+                                      image_content,
+                                      post_date,
+                                      modified_date
+                                  FROM
+                                      posts p
+                                  JOIN users u 
+                                  ON
+                                      p.author = u.user_id
+                                  WHERE
+                                      p.author = :user_id
+                                  ORDER BY post_date";
+            break;
+        case "updated_date":
+            $users_posts_query = "SELECT
+                                      post_id,
+                                      title,
+                                      written_content,
+                                      image_content,
+                                      post_date,
+                                      modified_date
+                                  FROM
+                                      posts p
+                                  JOIN users u 
+                                  ON
+                                      p.author = u.user_id
+                                  WHERE
+                                      p.author = :user_id
+                                  ORDER BY modified_date";
+            break;
+    }
+
+    switch ($order_direction) {
+        case "ascending":
+            $sort_direction = " ASC;";
+            break;
+        case "descending":
+            $sort_direction = " DESC;";
+            break;
+    }
+
+    $users_posts_query = $users_posts_query . $sort_direction;
 
     $statement = $db->prepare($users_posts_query);
 
     $statement->bindValue("user_id", $user_id);
-    $statement->bindValue("order_type", $order_type);
-    $statement->bindValue("order_direction", $order_direction);
 
     $statement->execute();
 
@@ -43,34 +90,13 @@ if (is_logged_in()) {
         $sort_type = $_GET["sort_selection"];
         $sort_direction = $_GET["sort_direction"];
 
-        switch ($sort_type) {
-            case "title":
-                $sort_type = "title";
-                break;
-            case "creation_date":
-                $sort_type = "post_date";
-                break;
-            case "updated_date":
-                $sort_type = "modified_date";
-                break;
-        }
-
-        switch ($sort_direction) {
-            case "ascending":
-                $sort_direction = "ASC";
-                break;
-            case "descending":
-                $sort_direction = "DESC";
-                break;
-        }
-
         print_r($sort_type);
         echo "<br>";
         print_r($sort_direction);
 
         $result = Get_Posts($db, $user_id, $sort_type, $sort_direction);
     } else {
-        $result = Get_Posts($db, $user_id, "modified_date", "ASC");
+        $result = Get_Posts($db, $user_id);
     }
 } else {
     header("Location: login.php");
