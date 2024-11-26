@@ -34,7 +34,8 @@ if (isset($_GET["search_text"])) {
     <?php if ($is_search): ?>
         <?php for ($post = 0; $post < count($search_results); $post++): ?>
             <div class="search_item">
-                <h1><?= $search_results[$post]["first_name"] . " " . $search_results[$post]["last_name"] ?> </h1>
+                <h2><?= $search_results[$post]["title"] ?></h2>
+                <h3><?= $search_results[$post]["first_name"] . " " . $search_results[$post]["last_name"] ?> </h3>
                 <p>Post Date: <?= date($date_format, strtotime($search_results[$post]["post_date"])) ?></p>
                 <p>Last Edited: <?= date($date_format, strtotime($search_results[$post]["modified_date"])) ?></p>
                 <img src=uploads/medium<?= $search_results[$post]["image_content"] ?> alt="">

@@ -7,7 +7,7 @@ $user_id = $_SESSION["user_details"]["user_id"];
 
 $do_display_options = false;
 
-function Get_Posts($db, $user_id, $order_type = "updated_date", $order_direction = "descending")
+function get_users_posts($db, $user_id, $order_type = "updated_date", $order_direction = "descending")
 {
     switch ($order_type) {
         case "title":
@@ -94,9 +94,9 @@ if (is_logged_in()) {
         echo "<br>";
         print_r($sort_direction);
 
-        $result = Get_Posts($db, $user_id, $sort_type, $sort_direction);
+        $result = get_users_posts($db, $user_id, $sort_type, $sort_direction);
     } else {
-        $result = Get_Posts($db, $user_id);
+        $result = get_users_posts($db, $user_id);
     }
 } else {
     header("Location: login.php");
