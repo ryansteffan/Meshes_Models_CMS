@@ -53,16 +53,17 @@ function login_user($database, $username, $password)
     $user_row = $statement->fetch();
 
     try {
-        $stored_password_hash = $user_row["hash"];
+        if (isset($user_row["hash"])) {
+            $stored_password_hash = $user_row["hash"];
+            $isValidLogin = password_verify($password, $stored_password_hash);
+            if ($isValidLogin) {
+                set_user_logged_in($user_row);
+                header("Location: ../index.php");
+            } else {
+                header("../pages/login.php");
+            }
+        }
     } catch (Exception $e) {
         header("Location: ../pages/login.php");
-    }
-
-    $isValidLogin = password_verify($password, $stored_password_hash);
-    if ($isValidLogin) {
-        set_user_logged_in($user_row);
-        header("Location: ../index.php");
-    } else {
-        header("../pages/login.php");
     }
 }

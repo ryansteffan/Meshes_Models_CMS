@@ -3,7 +3,6 @@ require("../utilities/connect.php");
 require("../utilities/auth.php");
 require("../utilities/image_upload.php");
 
-use Gumlet\ImageResize;
 
 $do_display_options = false;
 $error = false;
@@ -29,7 +28,7 @@ function update_post($db, $post_id, $title, $image_name, $written_content, $cate
               	title = :title,
               	written_content = :written_content,
               	image_content = :image_content,
-              	post_date = current_timestamp()
+              	modified_date = current_timestamp()
               WHERE
               	post_id = :post_id;";
 

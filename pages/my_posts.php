@@ -2,7 +2,12 @@
 require("../utilities/connect.php");
 require("../utilities/auth.php");
 
+$date_format = "F j, Y, h:i a";
+
 $do_display_options = false;
+
+function Get_Posts($db, $user_id, $order_type, $order_direction) {}
+
 
 if (is_logged_in()) {
     $do_display_options = true;
@@ -12,7 +17,8 @@ if (is_logged_in()) {
 	title,
 	written_content,
 	image_content,
-	post_date
+	post_date,
+    modified_date
     FROM
 	    posts p
     JOIN users u 
@@ -51,12 +57,27 @@ if (is_logged_in()) {
             <a href="./create_post.php">Create Post</a>
         </div>
         <h1>Your Posts:</h1>
+        <form action="#" method="get">
+            <select name="sort_selection" id="sort_selection">
+                <option value="title">Title</option>
+                <option value="creation_date">Date Created</option>
+                <option value="updated_date">Date Updated</option>
+            </select>
+            <select name="sort_direction" id="sort_direction">
+                <option value="ascending">Ascending</option>
+                <option value="descending">Descending</option>
+            </select>
+            <button type="submit">Sort</button>
+        </form>
         <?php while ($row = $statement->fetch()): ?>
-            <h2><?= $row["title"] ?></h2>
-            <p><?= $row["post_date"] ?></p>
-            <img src="../uploads/small<?= $row["image_content"] ?>" alt="Image for <?= $row["title"] ?> post.">
-            <p><a href="./modify_post.php?post_id=<?= $row["post_id"] ?>">Edit</a></p>
-            <p><a href="./delete_post.php?post_id=<?= $row["post_id"] ?>">Delete</a></p>
+            <div class="edit_list_item">
+                <h2><?= $row["title"] ?></h2>
+                <p>Post Date: <?= date($date_format, strtotime($row["post_date"])) ?></p>
+                <p>Last Edited: <?= date($date_format, strtotime($row["modified_date"])) ?></p>
+                <img src="../uploads/small<?= $row["image_content"] ?>" alt="Image for <?= $row["title"] ?> post.">
+                <p><a href="./modify_post.php?post_id=<?= $row["post_id"] ?>">Edit</a></p>
+                <p><a href="./delete_post.php?post_id=<?= $row["post_id"] ?>">Delete</a></p>
+            </div>
         <?php endwhile ?>
 
     <?php endif ?>

@@ -39,7 +39,8 @@ if (isset($_GET["post_id"])) {
     <?php require("../templates/header.php") ?>
     <?php while ($row = $prepared_statement->fetch()): ?>
         <h1><?= $row["first_name"] . " " . $row["last_name"] ?> </h1>
-        <p><?= date($date_format, strtotime($row["post_date"])) ?></p>
+        <p>Post Date: <?= date($date_format, strtotime($row["post_date"])) ?></p>
+        <p>Last Edited: <?= date($date_format, strtotime($row["modified_date"])) ?></p>
 
         <?php $categories = get_post_categories($db, $row["post_id"]); ?>
         <ul>
