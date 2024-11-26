@@ -1,6 +1,7 @@
 <?php
 require("../utilities/connect.php");
 require("../utilities/auth.php");
+require("../utilities/image_upload.php");
 
 $do_display_options = false;
 $error = false;
@@ -53,6 +54,20 @@ if (isset($_GET["post_id"])) {
 }
 
 if (isset($_POST["update_post"])) {
+    $post_id = $_POST["post_id"];
+    $title = $_POST["title"];
+    $old_image = $_POST["current_image"];
+    $written_content = $_POST["written_content"];
+    if (isset($_FILES["name"])) {
+        $filename = $_FILES["name"];
+        update_post($db, $post_id, $title, $filename, $written_content);
+        delete_images($old_image);
+        save_images("../uploads/");
+    } else {
+        update_post($db, $post_id, $title, $old_image, $written_content);
+    }
+} else {
+    header("location: my_posts.php");
 }
 
 ?>
