@@ -53,7 +53,6 @@ if (isset($_GET["post_id"])) {
 }
 
 if (isset($_POST["update_post"])) {
-    print_r($_POST);
 }
 
 ?>
