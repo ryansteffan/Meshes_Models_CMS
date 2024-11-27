@@ -71,6 +71,7 @@ if ($upload_error_detected) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../index.css">
 
     <!-- Config the WYSIWYG -->
     <script src="../vendor/tinymce/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
