@@ -32,7 +32,6 @@ if (end($current_dir) == "Meshes_Models_CMS" || end($current_dir) == "wwwroot") 
 }
 ?>
 
-<html>
 <link rel="stylesheet" href=<?= $styles_location ?>>
 <header>
     <!-- Bring in the styles for the template. -->
@@ -56,5 +55,3 @@ if (end($current_dir) == "Meshes_Models_CMS" || end($current_dir) == "wwwroot") 
         <?php endif ?>
     </ul>
 </header>
-
-</html>
