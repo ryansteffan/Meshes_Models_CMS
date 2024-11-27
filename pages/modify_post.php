@@ -80,6 +80,10 @@ if (isset($_POST["update_post"])) {
 
     <link rel="stylesheet" href="../index.css">
 
+    <!-- Config the WYSIWYG -->
+    <script src="../vendor/tinymce/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="js/tinymce_config.js"></script>
+
     <title>Modify A Post</title>
 </head>
 
