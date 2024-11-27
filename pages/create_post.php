@@ -72,7 +72,7 @@ if ($upload_error_detected) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="../index.css">
-    <link rel="stylesheet" href="./styles/create_post.css">
+    <link rel="stylesheet" href="./styles/tinymce_config.css">
 
     <!-- Config the WYSIWYG -->
     <script src="../vendor/tinymce/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
