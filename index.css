@@ -2,5 +2,14 @@
 	padding: 0px;
 	margin: 0px;
 	color: white;
+}
+
+input,
+button,
+select {
+	color: black;
+}
+
+body {
 	background-color: #011638;
 }

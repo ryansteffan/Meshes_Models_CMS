@@ -32,15 +32,20 @@ if (isset($_GET["post_id"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="./styles/view_post.css">
+    <link rel="stylesheet" href="../index.css">
+
     <title>Document</title>
 </head>
 
 <body>
     <?php require("../templates/header.php") ?>
+    </div>
     <?php while ($row = $prepared_statement->fetch()): ?>
         <h1><?= $row["title"] ?></h1>
         <h2><?= $row["first_name"] . " " . $row["last_name"] ?> </h2>
-        <?php if ($row["author"] == $_SESSION["user_details"]["user_id"]): ?>
+        <?php if (isset($_SESSION["user_details"]) && $row["author"] == $_SESSION["user_details"]["user_id"]): ?>
             <ul>
                 <li><a href="./modify_post.php?post_id=<?= $post_id ?>">Edit Post</a></li>
                 <li><a href="./delete_post.php?post_id=<?= $post_id ?>">Delete Post</a></li>
@@ -57,7 +62,7 @@ if (isset($_GET["post_id"])) {
         </ul>
 
         <img src=../uploads/medium<?= $row["image_content"] ?> alt="">
-        <p><?= $row["written_content"] ?></p>
+        <p id="written_content"><?= $row["written_content"] ?></p>
     <?php endwhile ?>
     <?php require("../templates/footer.php") ?>
 </body>

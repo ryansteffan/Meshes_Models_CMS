@@ -19,7 +19,6 @@ if (end($current_dir) == "Meshes_Models_CMS" || end($current_dir) == "wwwroot") 
 }
 ?>
 
-<html>
 <link rel="stylesheet" href=<?= $styles_location ?>>
 <footer>
     <p id="copyright_message">
@@ -35,5 +34,3 @@ if (end($current_dir) == "Meshes_Models_CMS" || end($current_dir) == "wwwroot") 
         <li><a href=<?= $admin_page_link ?>>Administration</a></li>
     </ul>
 </footer>
-
-</html>

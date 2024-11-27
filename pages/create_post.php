@@ -71,6 +71,13 @@ if ($upload_error_detected) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../index.css">
+    <link rel="stylesheet" href="./styles/tinymce_config.css">
+
+    <!-- Config the WYSIWYG -->
+    <script src="../vendor/tinymce/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="js/tinymce_config.js"></script>
+
 </head>
 
 <body>
@@ -85,7 +92,7 @@ if ($upload_error_detected) {
             <label for="image_upload">Upload an Image:</label>
             <input type="file" name="image_upload" id="image_upload">
             <label for="written_content">Add a description to the image:</label>
-            <textarea name="written_content" id="written_content"></textarea>
+            <textarea name="written_content" id="written_content" rows="10" cols="80"></textarea>
             <button type="submit">Post</button>
         </form>
         <?php if ($error): ?>
