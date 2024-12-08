@@ -87,14 +87,14 @@ function get_users_posts($db, $user_id, $order_type = "updated_date", $order_dir
 if (is_logged_in()) {
     $do_display_options = true;
     if (isset($_GET["sort_selection"])) {
-        $sort_type = $_GET["sort_selection"];
-        $sort_direction = $_GET["sort_direction"];
+        $sort_type = filter_input(INPUT_GET, 'sort_selection', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $sort_direction = filter_input(INPUT_GET, 'sort_direction', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-        print_r($sort_type);
-        echo "<br>";
-        print_r($sort_direction);
-
-        $result = get_users_posts($db, $user_id, $sort_type, $sort_direction);
+        if ($sort_type != false && $sort_direction != false) {
+            $result = get_users_posts($db, $user_id, $sort_type, $sort_direction);
+        } else {
+            header("Location: db_error.php");
+        }
     } else {
         $result = get_users_posts($db, $user_id);
     }
