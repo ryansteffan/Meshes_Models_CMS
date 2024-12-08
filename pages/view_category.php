@@ -6,11 +6,13 @@ if (isset($_GET["category"])) {
 
     $date_format = "F j, Y, h:i a";
 
-    $category = $_GET["category"];
+    $category = filter_input(INPUT_GET, 'category', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-    $posts = get_category_posts($db, $category);
-
-    print_r($posts);
+    if ($category != false) {
+        $posts = get_category_posts($db, $category);
+    } else {
+        $posts = "No posts could be found.";
+    }
 } else {
     // Redirect the user if they do not make a proper get request.
     header("Location: categories.php");
