@@ -32,7 +32,11 @@ function delete_post($db, $post_id)
 
 if (is_logged_in() && isset($_GET["post_id"])) {
     $post_id = $_GET["post_id"];
-    delete_post($db, $post_id);
+    $post_id = filter_input(INPUT_GET, 'post_id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+    if ($post_id != false) {
+        delete_post($db, $post_id);
+    }
 } else {
     header("location: db_error.php");
 }
