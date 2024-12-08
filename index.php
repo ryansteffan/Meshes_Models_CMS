@@ -11,6 +11,8 @@ if (isset($_GET["search_text"])) {
 
     if ($keyword != false) {
         $search_results = post_search($db, $keyword);
+    } else {
+        $search_results = "There are not results for that search.";
     }
 } else {
     $is_search = false;
