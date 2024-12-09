@@ -3,6 +3,11 @@ require("../utilities/connect.php");
 require("../utilities/auth.php");
 require("../utilities/image_upload.php");
 require("../vendor/autoload.php");
+require("../vendor/ezyang/htmlpurifier/library/HTMLPurifier.auto.php");
+
+// Used to sanitize WYSIWYG.
+$purifier_config = HTMLPurifier_Config::createDefault();
+$purifier = new HTMLPurifier($purifier_config);
 
 function save_to_database($db, $title, $image_name, $written_content, $categories = null)
 {
@@ -49,9 +54,8 @@ if ($is_form_filled) {
 
         $image_filename = $_FILES["image_upload"]["name"];
 
-        // TODO: Make sure it works with wysiwyg.
         $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $written_content = filter_input(INPUT_POST, "written_content", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $written_content = $purifier->purify($_POST["written_content"]);
 
         save_to_database($db, $title, $image_filename, $written_content);
 
