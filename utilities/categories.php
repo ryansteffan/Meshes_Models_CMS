@@ -77,10 +77,24 @@ function post_search($db, $keyword)
                              OR
                                  u.last_name LIKE :ln";
 
+    $category_name_search = "SELECT * 
+                             FROM posts p 
+                             JOIN users u 
+                             ON p.author = u.user_id
+                             WHERE 
+                             	u.first_name LIKE :searchfield
+                             OR
+                             	u.last_name LIKE :searchfield
+                             OR
+                             	p.title LIKE :searchfield
+                             OR 
+                             	concat(u.first_name, ' ', u.last_name) LIKE :searchfield;
+                             OR 
+                             	concat(u.first_name, u.last_name) LIKE :searchfield;";
+
     $statement = $db->prepare($category_name_search);
 
-    $statement->bindValue(":fn", $keyword);
-    $statement->bindValue(":ln", $keyword);
+    $statement->bindValue(":searchfield", $keyword);
 
     $statement->execute();
 
