@@ -2,11 +2,17 @@
 require("../utilities/connect.php");
 require("../utilities/auth.php");
 require("../utilities/image_upload.php");
+require("../vendor/autoload.php");
+require("../vendor/ezyang/htmlpurifier/library/HTMLPurifier.auto.php");
 
 
 $do_display_options = false;
 $error = false;
 $default_error_message = "There was an error trying to update the page, please try again later.";
+
+// Used to sanitize WYSIWYG.
+$purifier_config = HTMLPurifier_Config::createDefault();
+$purifier = new HTMLPurifier($purifier_config);
 
 function get_current_post($db, $post_id)
 {
@@ -46,7 +52,7 @@ function update_post($db, $post_id, $title, $image_name, $written_content, $cate
 
 if (isset($_GET["post_id"])) {
     if (is_logged_in()) {
-        $post_id = filter_input(INPUT_GET, 'post_id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $post_id = filter_input(INPUT_GET, 'post_id', FILTER_VALIDATE_INT);
         if ($post_id != false) {
             $do_display_options = true;
             $current_post = get_current_post($db, $post_id);
@@ -57,11 +63,10 @@ if (isset($_GET["post_id"])) {
 }
 
 if (isset($_POST["update_post"])) {
-    // TODO: Make sure it works with WYSIWYG.
     $post_id = filter_input(INPUT_POST, 'post_id', FILTER_VALIDATE_INT);
     $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $old_image = filter_input(INPUT_POST, "current_image", FILTER_SANITIZE_SPECIAL_CHARS);
-    $written_content = filter_input(INPUT_POST, "written_content", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $written_content = $purifier->purify($_POST["written_content"]);
     if ($post_id != false && $title != false && $old_image != false && $written_content != false) {
         if ($_FILES["image_upload"]["error"] == 0) {
             $filename = $_FILES["image_upload"]["name"];

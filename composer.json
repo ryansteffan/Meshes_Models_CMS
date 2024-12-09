@@ -11,6 +11,7 @@
     "require": { 
         "gumlet/php-image-resize": "2.0.*",
         "rmccue/requests": "^2.0",
-        "tinymce/tinymce": "^7.5"
+        "tinymce/tinymce": "^7.5",
+        "ezyang/htmlpurifier": "^4.18"
     }
 }
