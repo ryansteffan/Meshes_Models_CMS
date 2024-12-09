@@ -1,5 +1,6 @@
 <?php
 require("../utilities/connect.php");
+require("../utilities/categories.php");
 require("../utilities/auth.php");
 require("../utilities/image_upload.php");
 require("../vendor/autoload.php");
@@ -8,6 +9,8 @@ require("../vendor/ezyang/htmlpurifier/library/HTMLPurifier.auto.php");
 // Used to sanitize WYSIWYG.
 $purifier_config = HTMLPurifier_Config::createDefault();
 $purifier = new HTMLPurifier($purifier_config);
+
+$categories = get_all_categories($db);
 
 function save_to_database($db, $title, $image_name, $written_content, $categories = null)
 {
@@ -101,6 +104,10 @@ if ($upload_error_detected) {
             <input type="file" name="image_upload" id="image_upload">
             <label for="written_content">Add a description to the image:</label>
             <textarea name="written_content" id="written_content" rows="10" cols="80"></textarea>
+            <label for="categories">Categories:</label>
+
+
+
             <button type="submit">Post</button>
         </form>
         <?php if ($error): ?>
