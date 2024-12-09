@@ -5,10 +5,10 @@ require("../utilities/auth.php");
 $password_and_email_set = isset($_POST["email"]) && isset($_POST["password"]);
 
 if ($password_and_email_set) {
-    $username = $_POST["email"];
+    $username = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
     $password = $_POST["password"];
 
-    if ($username != "" && $password != "") {
+    if ($username != "" && $username != false && $password != "") {
         login_user($db, $username, $password);
     } else {
         header("Location: login_error.php");
