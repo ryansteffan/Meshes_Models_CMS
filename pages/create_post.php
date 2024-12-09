@@ -49,7 +49,11 @@ if ($is_form_filled) {
 
         $image_filename = $_FILES["image_upload"]["name"];
 
-        save_to_database($db, $_POST["title"], $image_filename, $_POST["written_content"]);
+        // TODO: Make sure it works with wysiwyg.
+        $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $written_content = filter_input(INPUT_POST, "written_content", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+        save_to_database($db, $title, $image_filename, $written_content);
 
         header("Location: ./my_posts.php");
     } else {
