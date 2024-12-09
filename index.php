@@ -7,9 +7,13 @@ $date_format = "F j, Y, h:i a";
 
 if (isset($_GET["search_text"])) {
     $is_search = true;
-    $keyword = $_GET["search_text"];
+    $keyword = filter_input(INPUT_GET, 'search_text', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-    $search_results = post_search($db, $keyword);
+    if ($keyword != false) {
+        $search_results = post_search($db, $keyword);
+    } else {
+        $search_results = "There are not results for that search.";
+    }
 } else {
     $is_search = false;
     $get_posts_query = "SELECT * FROM posts p JOIN users u ON p.author = u.user_id LIMIT 20;";

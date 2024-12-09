@@ -6,19 +6,23 @@ require("../utilities/auth.php");
 $date_format = "F j, Y, h:i a";
 
 if (isset($_GET["post_id"])) {
-    $post_id = $_GET["post_id"];
+    $post_id = filter_input(INPUT_GET, 'post_id', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-    $get_post_query = "SELECT * 
-                        FROM posts p
-                        JOIN users u
-                        ON p.author = u.user_id
-                        WHERE p.post_id = :post_id";
+    if ($post_id != false) {
+        $get_post_query = "SELECT * 
+                            FROM posts p
+                            JOIN users u
+                            ON p.author = u.user_id
+                            WHERE p.post_id = :post_id";
 
-    $prepared_statement = $db->prepare($get_post_query);
+        $prepared_statement = $db->prepare($get_post_query);
 
-    $prepared_statement->bindValue(":post_id", $post_id);
+        $prepared_statement->bindValue(":post_id", $post_id);
 
-    $prepared_statement->execute();
+        $prepared_statement->execute();
+    } else {
+        header("Location: ../index.php");
+    }
 } else {
     // Redirect the user if they do not make a get request.
     header("Location: ../index.php");

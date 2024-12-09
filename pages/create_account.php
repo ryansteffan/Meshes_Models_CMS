@@ -9,16 +9,20 @@ if (isset($_POST["create_account"])) {
     $is_names_set = $_POST["first_name"] != "" && $_POST["last_name"] != "";
 
     if ($is_email_password_set && $is_names_set) {
-        $email = $_POST["email"];
+        $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
         $password = $_POST["password"];
         $repeated_password = $_POST["repeat_password"];
-        $first_name = $_POST["first_name"];
-        $last_name = $_POST["last_name"];
+        $first_name = filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $last_name = filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $auth_level = 5;
 
         // Ensure that a user does not make a password they do not know.
         if ($password != $repeated_password) {
-            $error = "Passwords do match. Please re-enter the password and retry.";
+            $error = "Passwords do not match. Please re-enter the password and retry.";
+        }
+
+        if ($email == false) {
+            $error = "The email provided is not a valid email.";
         }
 
         try {
