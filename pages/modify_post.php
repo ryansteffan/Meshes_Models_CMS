@@ -57,17 +57,22 @@ if (isset($_GET["post_id"])) {
 }
 
 if (isset($_POST["update_post"])) {
-    $post_id = $_POST["post_id"];
-    $title = $_POST["title"];
-    $old_image = $_POST["current_image"];
-    $written_content = $_POST["written_content"];
-    if ($_FILES["image_upload"]["error"] == 0) {
-        $filename = $_FILES["image_upload"]["name"];
-        update_post($db, $post_id, $title, $filename, $written_content);
-        delete_images($old_image);
-        save_images("../uploads/");
+    // TODO: Make sure it works with WYSIWYG.
+    $post_id = filter_input(INPUT_POST, 'post_id', FILTER_VALIDATE_INT);
+    $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $old_image = filter_input(INPUT_POST, "current_image", FILTER_SANITIZE_SPECIAL_CHARS);
+    $written_content = filter_input(INPUT_POST, "written_content", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    if ($post_id != false && $title != false && $old_image != false && $written_content != false) {
+        if ($_FILES["image_upload"]["error"] == 0) {
+            $filename = $_FILES["image_upload"]["name"];
+            update_post($db, $post_id, $title, $filename, $written_content);
+            delete_images($old_image);
+            save_images("../uploads/");
+        } else {
+            update_post($db, $post_id, $title, $old_image, $written_content);
+        }
     } else {
-        update_post($db, $post_id, $title, $old_image, $written_content);
+        header("Location: db_error.php");
     }
 }
 
