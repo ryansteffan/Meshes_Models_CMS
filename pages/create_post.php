@@ -10,7 +10,28 @@ require("../vendor/ezyang/htmlpurifier/library/HTMLPurifier.auto.php");
 $purifier_config = HTMLPurifier_Config::createDefault();
 $purifier = new HTMLPurifier($purifier_config);
 
-$categories = get_all_categories($db);
+$categories = get_full_category_data($db);
+
+function save_category_selection($db, $post_id)
+{
+    $select_categories = [];
+    $all_categories = get_full_category_data($db);
+
+
+    foreach ($_POST as $key => $value) {
+        for ($category = 0; $category < count($all_categories); $category++) {
+            // If the name of the category is on then add it to the list.
+            if ($key == $all_categories[$category]["name"]) {
+                if ($value == "on") {
+                    // Add the category id to the list.
+                    array_push($select_categories, $all_categories[$category]["category_id"]);
+                }
+            }
+        }
+    }
+
+    print_r($select_categories);
+}
 
 function save_to_database($db, $title, $image_name, $written_content, $categories = null)
 {
@@ -31,7 +52,21 @@ function save_to_database($db, $title, $image_name, $written_content, $categorie
         $statement->bindValue(":image_content", $image_name);
 
         $statement->execute();
+
+        // https://stackoverflow.com/questions/31681096/getting-the-next-primary-key-without-adding-a-new-record-is-impossible-isnt-it
+        $post_id_query = "SELECT AUTO_INCREMENT - 1 AS 'current_id'
+                          FROM information_schema.TABLES
+                          WHERE TABLE_SCHEMA = 'meshes_and_models'
+                          AND TABLE_NAME = 'posts';";
+
+        $post_id_statement = $db->prepare($post_id_query);
+
+        $post_id_statement->execute();
+
+        return $post_id_statement->fetch()["current_id"];
     }
+
+    return null;
 }
 $do_display_options = false;
 $upload_error_detected = false;
@@ -39,6 +74,8 @@ $error = false;
 
 if (is_logged_in()) {
     $do_display_options = true;
+    // TODO: DELETE.
+    save_category_selection($db, 13);
 } else {
     header("Location: login.php");
 }
@@ -53,16 +90,17 @@ if ($is_form_filled) {
 
     if ($image_upload_detected) {
 
-        save_images($file_upload_path);
+        // save_images($file_upload_path);
 
         $image_filename = $_FILES["image_upload"]["name"];
 
         $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $written_content = $purifier->purify($_POST["written_content"]);
 
-        save_to_database($db, $title, $image_filename, $written_content);
 
-        header("Location: ./my_posts.php");
+        // save_to_database($db, $title, $image_filename, $written_content);
+
+        // header("Location: ./my_posts.php");
     } else {
         $error = "The file being uploaded must be an image.";
     }
@@ -104,9 +142,12 @@ if ($upload_error_detected) {
             <input type="file" name="image_upload" id="image_upload">
             <label for="written_content">Add a description to the image:</label>
             <textarea name="written_content" id="written_content" rows="10" cols="80"></textarea>
-            <label for="categories">Categories:</label>
+            <label for="categories">Categories:</label><br>
 
-
+            <?php for ($category = 0; $category < count($categories); $category++): ?>
+                <label for=<?= $categories[$category]["name"] ?>> <?= $categories[$category]["name"] ?> </label>
+                <input type="checkbox" name=<?= $categories[$category]["name"] ?> id=<?= $categories[$category]["name"] ?>><br>
+            <?php endfor ?>
 
             <button type="submit">Post</button>
         </form>

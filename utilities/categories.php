@@ -18,6 +18,17 @@ function get_all_categories($db)
     return $categories;
 }
 
+function get_full_category_data($db)
+{
+    $query = "SELECT * FROM Categories;";
+
+    $statement = $db->prepare($query);
+
+    $statement->execute();
+
+    return $statement->fetchAll();
+}
+
 // Gets all of the posts in a given category.
 function get_category_posts($db, $categories)
 {
