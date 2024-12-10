@@ -30,7 +30,18 @@ function save_category_selection($db, $post_id)
         }
     }
 
-    print_r($select_categories);
+    for ($id = 0; $id < count($select_categories); $id++) {
+        $insert_category_relationship = "INSERT INTO posts_categories
+                                         (post_id, category_id)
+                                         VALUES(:post_id, :cat_id);";
+
+        $statement = $db->prepare($insert_category_relationship);
+
+        $statement->bindValue(":post_id", $post_id);
+        $statement->bindValue(":cat_id", $select_categories[$id]);
+
+        $statement->execute();
+    }
 }
 
 function save_to_database($db, $title, $image_name, $written_content, $categories = null)
@@ -75,7 +86,6 @@ $error = false;
 if (is_logged_in()) {
     $do_display_options = true;
     // TODO: DELETE.
-    save_category_selection($db, 13);
 } else {
     header("Location: login.php");
 }
@@ -90,17 +100,18 @@ if ($is_form_filled) {
 
     if ($image_upload_detected) {
 
-        // save_images($file_upload_path);
+        save_images($file_upload_path);
 
         $image_filename = $_FILES["image_upload"]["name"];
 
         $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $written_content = $purifier->purify($_POST["written_content"]);
 
+        $new_post_id = save_to_database($db, $title, $image_filename, $written_content);
 
-        // save_to_database($db, $title, $image_filename, $written_content);
+        save_category_selection($db, $new_post_id);
 
-        // header("Location: ./my_posts.php");
+        header("Location: ./my_posts.php");
     } else {
         $error = "The file being uploaded must be an image.";
     }
