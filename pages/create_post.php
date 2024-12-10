@@ -12,37 +12,37 @@ $purifier = new HTMLPurifier($purifier_config);
 
 $categories = get_full_category_data($db);
 
-function save_category_selection($db, $post_id)
-{
-    $select_categories = [];
-    $all_categories = get_full_category_data($db);
+// function save_category_selection($db, $post_id)
+// {
+//     $select_categories = [];
+//     $all_categories = get_full_category_data($db);
 
 
-    foreach ($_POST as $key => $value) {
-        for ($category = 0; $category < count($all_categories); $category++) {
-            // If the name of the category is on then add it to the list.
-            if ($key == $all_categories[$category]["name"]) {
-                if ($value == "on") {
-                    // Add the category id to the list.
-                    array_push($select_categories, $all_categories[$category]["category_id"]);
-                }
-            }
-        }
-    }
+//     foreach ($_POST as $key => $value) {
+//         for ($category = 0; $category < count($all_categories); $category++) {
+//             // If the name of the category is on then add it to the list.
+//             if ($key == $all_categories[$category]["name"]) {
+//                 if ($value == "on") {
+//                     // Add the category id to the list.
+//                     array_push($select_categories, $all_categories[$category]["category_id"]);
+//                 }
+//             }
+//         }
+//     }
 
-    for ($id = 0; $id < count($select_categories); $id++) {
-        $insert_category_relationship = "INSERT INTO posts_categories
-                                         (post_id, category_id)
-                                         VALUES(:post_id, :cat_id);";
+//     for ($id = 0; $id < count($select_categories); $id++) {
+//         $insert_category_relationship = "INSERT INTO posts_categories
+//                                          (post_id, category_id)
+//                                          VALUES(:post_id, :cat_id);";
 
-        $statement = $db->prepare($insert_category_relationship);
+//         $statement = $db->prepare($insert_category_relationship);
 
-        $statement->bindValue(":post_id", $post_id);
-        $statement->bindValue(":cat_id", $select_categories[$id]);
+//         $statement->bindValue(":post_id", $post_id);
+//         $statement->bindValue(":cat_id", $select_categories[$id]);
 
-        $statement->execute();
-    }
-}
+//         $statement->execute();
+//     }
+// }
 
 function save_to_database($db, $title, $image_name, $written_content, $categories = null)
 {
@@ -85,7 +85,6 @@ $error = false;
 
 if (is_logged_in()) {
     $do_display_options = true;
-    // TODO: DELETE.
 } else {
     header("Location: login.php");
 }
@@ -109,7 +108,7 @@ if ($is_form_filled) {
 
         $new_post_id = save_to_database($db, $title, $image_filename, $written_content);
 
-        save_category_selection($db, $new_post_id);
+        // save_category_selection($db, $new_post_id);
 
         header("Location: ./my_posts.php");
     } else {
@@ -153,13 +152,6 @@ if ($upload_error_detected) {
             <input type="file" name="image_upload" id="image_upload">
             <label for="written_content">Add a description to the image:</label>
             <textarea name="written_content" id="written_content" rows="10" cols="80"></textarea>
-            <label for="categories">Categories:</label><br>
-
-            <?php for ($category = 0; $category < count($categories); $category++): ?>
-                <label for=<?= $categories[$category]["name"] ?>> <?= $categories[$category]["name"] ?> </label>
-                <input type="checkbox" name=<?= $categories[$category]["name"] ?> id=<?= $categories[$category]["name"] ?>><br>
-            <?php endfor ?>
-
             <button type="submit">Post</button>
         </form>
         <?php if ($error): ?>
