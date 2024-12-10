@@ -18,10 +18,21 @@ function get_all_categories($db)
     return $categories;
 }
 
+function get_full_category_data($db)
+{
+    $query = "SELECT * FROM Categories;";
+
+    $statement = $db->prepare($query);
+
+    $statement->execute();
+
+    return $statement->fetchAll();
+}
+
 // Gets all of the posts in a given category.
 function get_category_posts($db, $categories)
 {
-    $query = "SELECT p.post_id, first_name, last_name, written_content, image_content, post_date 
+    $query = "SELECT p.post_id, first_name, last_name, written_content, image_content, post_date, modified_date
               FROM posts p
               JOIN users u
               ON p.author = u.user_id
