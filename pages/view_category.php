@@ -40,7 +40,7 @@ if (isset($_GET["category"])) {
             <h1><?= $posts[$index]["first_name"] . " " . $posts[$index]["last_name"] ?> </h1>
             <p>Post Date: <?= date($date_format, strtotime($posts[$index]["post_date"])) ?></p>
             <p>Last Edited: <?= date($date_format, strtotime($posts[$index]["modified_date"])) ?></p>
-            <img src=../uploads/<?= $posts[$index]["image_content"] ?> alt="">
+            <img src=../uploads/medium<?= $posts[$index]["image_content"] ?> alt="">
 
             <?php $categories = get_post_categories($db, $posts[$index]["post_id"]); ?>
             <ul>
