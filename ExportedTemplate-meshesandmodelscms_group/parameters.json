@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "sites_meshesandmodelscms_name": {
+            "value": null
+        },
+        "flexibleServers_me_server_name": {
+            "value": null
+        },
+        "virtualNetworks_meshesandmodelscmsVnet_name": {
+            "value": null
+        },
+        "serverfarms_ASP_meshesandmodelscmsgroup_9f0d_name": {
+            "value": null
+        },
+        "certificates_3d_ryansteffan_com_meshesandmodelscms_name": {
+            "value": null
+        },
+        "privateDnsZones_privatelink_redis_cache_windows_net_name": {
+            "value": null
+        },
+        "privateDnsZones_privatelink_mysql_database_azure_com_name": {
+            "value": null
+        }
+    }
+}
